@@ -11,6 +11,6 @@ export class CreateOrderDto {
   @ApiProperty({ example: '123A' })
   readonly code: string;
 
-  @ApiProperty({ example: '62dac4a43f6360a9c2ddfe0b' })
+  // @ApiProperty({ example: '62dac4a43f6360a9c2ddfe0b' })
   readonly userId: User;
 }
