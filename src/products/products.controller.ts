@@ -5,7 +5,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { ParseObjectIdPipe } from 'src/utilities/parse-object-id-pipe.pipe';
-import { OrderDto } from './dto/order.dto';
+import { CreateOrderDto } from 'src/orders/dto/create-order.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('products')
@@ -28,17 +28,17 @@ export class ProductsController {
     return this.productsService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id', ParseObjectIdPipe) id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(id, updateProductDto);
-  }
-
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post(':id/order') 
-  async addOrder(@Req() request, @Param('id', ParseObjectIdPipe) id: string, @Body() order: OrderDto) {
+  async addOrder(@Req() request, @Param('id', ParseObjectIdPipe) id: string, @Body() createOrderDto: CreateOrderDto) {
     const userId = request.user.userId;
-    return this.productsService.addOrder(id, userId, order); 
+    return this.productsService.addOrder(id, userId, createOrderDto); 
+  }
+
+  @Patch(':id')
+  update(@Param('id', ParseObjectIdPipe) id: string, @Body() updateProductDto: UpdateProductDto) {
+    return this.productsService.update(id, updateProductDto);
   }
 
   @Delete(':id')

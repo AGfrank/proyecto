@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../../users/schemas/user.schema';
 
-export class OrderDto {
+export class CreateOrderDto {
   @ApiProperty({ example: '2022-07-15' })
   readonly date: string;
 

@@ -3,10 +3,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Request } from 'express';
 import { Model } from 'mongoose';
 import { User } from 'src/users/schemas/user.schema';
-import { OrderDto } from './dto/order.dto';
+import { CreateOrderDto } from 'src/orders/dto/create-order.dto';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Order } from './schemas/order.schema';
+import { Order } from 'src/orders/schemas/order.schema';
 import { Product, ProductDocument } from './schemas/product.schema';
 
 @Injectable()
@@ -49,7 +49,7 @@ export class ProductsService {
     return order;
   }
 
-  async addOrder(id: string, userId: User, orderDto: OrderDto) { 
+  async addOrder(id: string, userId: User, orderDto: CreateOrderDto) { 
     const { date, quantity, code } = orderDto;
     const product: ProductDocument = await this.productsModule.findById(id); 
 
