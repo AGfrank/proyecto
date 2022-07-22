@@ -14,7 +14,7 @@ export class Order {
   quantity: number;
 
   @Prop()
-  order: string;
+  code: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' }) 
   userId: User; 

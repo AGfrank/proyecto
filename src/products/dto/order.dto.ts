@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../../users/schemas/user.schema';
 
-export class CreateOrderDto {
+export class OrderDto {
   @ApiProperty({ example: '2022-07-15' })
   readonly date: string;
 
@@ -9,7 +9,7 @@ export class CreateOrderDto {
   readonly quantity: number;
 
   @ApiProperty({ example: '123A' })
-  readonly Order: string;
+  readonly code: string;
 
   @ApiProperty({ example: '62dac4a43f6360a9c2ddfe0b' })
   readonly userId: User;

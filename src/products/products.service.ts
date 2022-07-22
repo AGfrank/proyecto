@@ -2,8 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Request } from 'express';
 import { Model } from 'mongoose';
+import { User } from 'src/users/schemas/user.schema';
+import { OrderDto } from './dto/order.dto';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { Order } from './schemas/order.schema';
 import { Product, ProductDocument } from './schemas/product.schema';
 
 @Injectable()
@@ -41,10 +44,38 @@ export class ProductsService {
     return this.productsModule.findByIdAndRemove({ _id: id }).exec(); 
   }
 
-  async addOrder(id: string, order: any) { 
-    let product: ProductDocument = await this.productsModule.findById(id); 
-    product.orders.push(order); 
-    product.save(); 
-    return product;
+  async getOrder(userId: User): Promise<ProductDocument> {
+    const order = await this.productsModule.findOne({ userId });
+    return order;
+  }
+
+  async addOrder(id: string, userId: User, orderDto: OrderDto) { 
+    const { date, quantity, code } = orderDto;
+    const product: ProductDocument = await this.productsModule.findById(id); 
+
+    const order = await this.getOrder(userId);
+
+    if (order) {
+      const orderIndex = product.orders.findIndex((item) => item.code == code);
+
+      if (orderIndex > -1) {
+        let item = product.orders[orderIndex];
+        item.quantity = Number(item.quantity) + Number(quantity);
+
+        product.orders[orderIndex] = item;
+        return order.save();
+      } else {
+        product.orders.push({ ...orderDto });
+        return order.save();
+      }
+    } else {
+      product.orders.push({
+        userId,
+        date,
+        quantity,
+        code
+      })
+      return product.save();
+    }
   }
 }

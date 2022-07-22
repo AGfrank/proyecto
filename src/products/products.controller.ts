@@ -5,7 +5,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { ParseObjectIdPipe } from 'src/utilities/parse-object-id-pipe.pipe';
-import { CreateOrderDto } from './dto/create-order.dto';
+import { OrderDto } from './dto/order.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('products')
@@ -36,8 +36,9 @@ export class ProductsController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post(':id/order') 
-  async addOrder(@Param('id', ParseObjectIdPipe) id: string, @Body() order: CreateOrderDto) {
-    return this.productsService.addOrder(id, order); 
+  async addOrder(@Req() request, @Param('id', ParseObjectIdPipe) id: string, @Body() order: OrderDto) {
+    const userId = request.user.userId;
+    return this.productsService.addOrder(id, userId, order); 
   }
 
   @Delete(':id')
