@@ -21,7 +21,7 @@ export class UsersController {
     return this.usersService.findAll(request);
   }
 
-  @Get(':id')
+  /*@Get(':id')
   async findOne(@Param('id', ParseObjectIdPipe) id: string) {
     return this.usersService.findOne(id);
   }
@@ -34,5 +34,5 @@ export class UsersController {
   @Delete(':id')
   async remove(@Param('id', ParseObjectIdPipe) id: string) {
     return this.usersService.remove(id);
-  }
+  }*/
 }
