@@ -11,10 +11,10 @@ import { ParseObjectIdPipe } from 'src/utilities/parse-object-id-pipe.pipe';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  /*@Post()
   async create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
-  }
+  }*/
 
   @Get()
   async findAll(@Req() request: Request) {
